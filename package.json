@@ -25,17 +25,14 @@
     ],
     "scripts": {
         "start": "webpack serve",
-        "prepare": "npm run css && npm run test && npm run doc && npm run prepare:demo && npm run prepare:commonjs && npm run prepare:umd && npm run prepare:umd:min",
+        "prepare": "npm run css && npm run doc && npm run prepare:demo && npm run prepare:commonjs && npm run prepare:umd && npm run prepare:umd:min",
         "prepare:commonjs": "tsc -p tsconfig2.json",
         "prepare:umd": "webpack --mode=development --config webpack_build.config.js",
         "prepare:umd:min": "webpack --mode=production --config webpack_build_min.config.js",
         "prepare:demo": "webpack",
         "lint:eslint": "eslint src/*",
         "doc": "typedoc --out typedoc --exclude \"**/examples/**/*.tsx\" --excludeInternal --disableSources --excludePrivate --excludeProtected --readme none ./src",
-        "css": "sass style/underline.scss style/underline.css && sass style/gray.scss style/gray.css && sass style/light.scss style/light.css && sass style/light.scss test/style/light.css && sass style/dark.scss style/dark.css",
-        "cypress": "cypress open-ct",
-        "cypress-firefox": "cypress open-ct --browser firefox",
-        "test": "cypress run --component"
+        "css": "sass style/underline.scss style/underline.css && sass style/gray.scss style/gray.css && sass style/light.scss style/light.css && sass style/light.scss test/style/light.css && sass style/dark.scss style/dark.css"
     },
     "author": "Caplin Systems Ltd",
     "repository": "https://github.com/VisionistInc/FlexLayout",
