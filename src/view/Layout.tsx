@@ -16,7 +16,7 @@ import { SplitterNode } from "../model/SplitterNode";
 import { TabNode } from "../model/TabNode";
 import { TabSetNode } from "../model/TabSetNode";
 import { Rect } from "../Rect";
-import { CLASSES } from "../Types";
+import { CLASSES, WindowRect } from "../Types";
 import { BorderTabSet } from "./BorderTabSet";
 import { Splitter } from "./Splitter";
 import { Tab } from "./Tab";
@@ -589,8 +589,12 @@ export class Layout extends React.Component<ILayoutProps, ILayoutState> {
     }
 
     /** @internal */
-    onCloseWindow = (id: string) => {
+    onCloseWindow = (id: string, window?: Window) => {
         this.doAction(Actions.unFloatTab(id));
+        if (window) {
+            // Save position when unloading/closing the window
+            this.onResizeWindow(id, window);
+        }
         try {
             (this.props.model.getNodeById(id) as TabNode)._setWindow(undefined);
         } catch (e) {
@@ -602,6 +606,17 @@ export class Layout extends React.Component<ILayoutProps, ILayoutState> {
     onSetWindow = (id: string, window: Window) => {
         (this.props.model.getNodeById(id) as TabNode)._setWindow(window);
     };
+
+    /** @internal */
+    onResizeWindow = (id: string, window: Window) => {
+        const windowRect: WindowRect = {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            x: window.screenX,
+            y: window.screenY,
+        };
+        (this.props.model.getNodeById(id) as TabNode)._updateAttrs({ windowRect });
+    }
 
     /** @internal */
     renderBorder(borderSet: BorderSet, borderComponents: React.ReactNode[], tabComponents: Record<string, React.ReactNode>, floatingWindows: React.ReactNode[], splitterComponents: React.ReactNode[]) {
@@ -646,9 +661,11 @@ export class Layout extends React.Component<ILayoutProps, ILayoutState> {
                                     key={child.getId()}
                                     url={this.popoutURL}
                                     rect={rect}
+                                    windowRect={child._getAttr("windowRect")}
                                     title={child.getName()}
                                     id={child.getId()}
                                     onSetWindow={this.onSetWindow}
+                                    onResizeWindow={this.onResizeWindow}
                                     onCloseWindow={this.onCloseWindow}
                                 >
                                     <FloatingWindowTab layout={this} node={child} factory={this.props.factory} />
@@ -704,9 +721,11 @@ export class Layout extends React.Component<ILayoutProps, ILayoutState> {
                             key={child.getId()}
                             url={this.popoutURL}
                             rect={rect}
+                            windowRect={child._getAttr("windowRect")}
                             title={child.getName()}
                             id={child.getId()}
                             onSetWindow={this.onSetWindow}
+                            onResizeWindow={this.onResizeWindow}
                             onCloseWindow={this.onCloseWindow}
                         >
                             <FloatingWindowTab layout={this} node={child} factory={this.props.factory} />

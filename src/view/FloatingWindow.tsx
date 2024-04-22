@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { Rect } from "../Rect";
-import { CLASSES } from "../Types";
+import { CLASSES, WindowRect } from "../Types";
 
 /** @internal */
 export interface IFloatingWindowProps {
@@ -9,8 +9,10 @@ export interface IFloatingWindowProps {
     id: string;
     url: string;
     rect: Rect | null;
-    onCloseWindow: (id: string) => void;
+    windowRect?: WindowRect;
+    onCloseWindow: (id: string, window?: Window) => void;
     onSetWindow: (id: string, window: Window) => void;
+    onResizeWindow: (id: string, window: Window) => void;
 }
 
 interface IStyleSheet {
@@ -21,7 +23,7 @@ interface IStyleSheet {
 
 /** @internal */
 export const FloatingWindow = (props: React.PropsWithChildren<IFloatingWindowProps>) => {
-    const { title, id, url, rect, onCloseWindow, onSetWindow, children } = props;
+    const { title, id, url, rect, onCloseWindow, onSetWindow, onResizeWindow, children } = props;
     const popoutWindow = React.useRef<Window | null>(null);
     const timerId = React.useRef<any>(null);
     const [content, setContent] = React.useState<HTMLElement | undefined>(undefined);
@@ -31,7 +33,7 @@ export const FloatingWindow = (props: React.PropsWithChildren<IFloatingWindowPro
             clearTimeout(timerId.current);
         }
         let isMounted = true;
-        const r = rect || new Rect(0, 0, 100, 100);
+        const r = props.windowRect || rect || new Rect(0, 0, 100, 100);
         // Make a local copy of the styles from the current window which will be passed into
         // the floating window. window.document.styleSheets is mutable and we can't guarantee
         // the styles will exist when 'popoutWindow.load' is called below.
@@ -63,10 +65,13 @@ export const FloatingWindow = (props: React.PropsWithChildren<IFloatingWindowPro
             // listen for parent unloading to remove all popouts
             window.addEventListener("beforeunload", () => {
                 if (popoutWindow.current) {
+                    onResizeWindow(id, popoutWindow.current);
                     popoutWindow.current.close();
                     popoutWindow.current = null;
                 }
             });
+
+            popoutWindow.current.addEventListener("resize", () => onResizeWindow(id, popoutWindow.current!));
 
             popoutWindow.current.addEventListener("load", () => {
                 if (isMounted) {
@@ -81,7 +86,7 @@ export const FloatingWindow = (props: React.PropsWithChildren<IFloatingWindowPro
 
                     // listen for popout unloading (needs to be after load for safari)
                     popoutWindow.current!.addEventListener("beforeunload", () => {
-                        onCloseWindow(id);
+                        onCloseWindow(id, popoutWindow.current!);
                     });
                 }
             });

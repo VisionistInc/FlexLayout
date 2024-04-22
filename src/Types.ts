@@ -96,3 +96,10 @@ export enum CLASSES {
     FLEXLAYOUT__POPUP_MENU_ITEM = "flexlayout__popup_menu_item",
     FLEXLAYOUT__POPUP_MENU = "flexlayout__popup_menu",
 }
+
+export interface WindowRect {
+    width: Number;
+    height: Number;
+    x: Number;
+    y: Number;
+}

@@ -1,4 +1,5 @@
 import { DockLocation } from "../DockLocation";
+import { WindowRect } from "../Types";
 import { Action } from "./Action";
 
 /**
@@ -140,7 +141,7 @@ export class Actions {
     }
 
     /**
-     * Updates the global model jsone attributes
+     * Updates the global model json attributes
      * @param attributes the json for the model attributes to update (merge into the existing attributes)
      * @returns {Action} the action
      */
@@ -158,8 +159,13 @@ export class Actions {
         return new Action(Actions.UPDATE_NODE_ATTRIBUTES, { node: nodeId, json: attributes });
     }
 
-    static floatTab(nodeId: string): Action {
-        return new Action(Actions.FLOAT_TAB, { node: nodeId });
+    /**
+    * Re-created a node's component a node in a floating window
+    * @param nodeId the id of the TabNode to float
+    * @param rect (optional) Rect object to position the new window to
+    */
+    static floatTab(nodeId: string, windowRect?: WindowRect): Action {
+        return new Action(Actions.FLOAT_TAB, { node: nodeId, windowRect });
     }
 
     static unFloatTab(nodeId: string): Action {

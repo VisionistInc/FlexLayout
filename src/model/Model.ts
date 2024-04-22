@@ -331,7 +331,7 @@ export class Model {
             case Actions.FLOAT_TAB: {
                 const node = this._idMap[action.data.node];
                 if (node instanceof TabNode) {
-                    node._setFloating(true);
+                    node._setFloating(true, action.data?.windowRect);
                     adjustSelectedIndexAfterFloat(node);
                 }
                 break;

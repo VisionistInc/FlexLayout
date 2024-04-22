@@ -1,6 +1,7 @@
 import { Attribute } from "../Attribute";
 import { AttributeDefinitions } from "../AttributeDefinitions";
 import { Rect } from "../Rect";
+import { WindowRect } from "../Types";
 import { BorderNode } from "./BorderNode";
 import { IDraggable } from "./IDraggable";
 import { IJsonTabNode } from "./IJsonModel";
@@ -32,6 +33,7 @@ export class TabNode extends Node implements IDraggable {
         attributeDefinitions.add("config", undefined).setType("any");
         attributeDefinitions.add("floating", false).setType(Attribute.BOOLEAN);
         attributeDefinitions.add("tabsetClassName", undefined).setType(Attribute.STRING);
+        attributeDefinitions.add("windowRect", undefined).setType("any");
 
         attributeDefinitions.addInherited("enableClose", "tabEnableClose").setType(Attribute.BOOLEAN);
         attributeDefinitions.addInherited("closeType", "tabCloseType").setType("ICloseType");
@@ -179,8 +181,11 @@ export class TabNode extends Node implements IDraggable {
     }
 
     /** @internal */
-    _setFloating(float: boolean) {
+    _setFloating(float: boolean, windowRect?: WindowRect) {
         this._attributes.floating = float;
+        if (windowRect) {
+            this._attributes.windowRect = windowRect;
+        }
     }
 
     /** @internal */
