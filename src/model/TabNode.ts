@@ -210,8 +210,17 @@ export class TabNode extends Node implements IDraggable {
     }
 
     toJson(): IJsonTabNode {
-        const json = {};
+        const json: Record<string, any> = {};
         TabNode._attributeDefinitions.toJson(json, this._attributes);
+        // When writing to json, always get the window position if available
+        if (this._window) {
+            json.windowRect = {
+                width: this._window.innerWidth,
+                height: this._window.innerHeight,
+                x: this._window.screenX,
+                y: this._window.screenY,
+            }
+        }
         return json;
     }
 
