@@ -185,6 +185,13 @@ export class TabNode extends Node implements IDraggable {
         this._attributes.floating = float;
         if (windowRect) {
             this._attributes.windowRect = windowRect;
+        } else if (this._window && !float) {
+            this._attributes.windowRect = {
+                width: this._window.innerWidth,
+                height: this._window.innerHeight,
+                x: this._window.screenX,
+                y: this._window.screenY,
+            } as WindowRect;
         }
     }
 
