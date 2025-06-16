@@ -24,7 +24,7 @@
         "docking layout"
     ],
     "scripts": {
-        "prepare": "npm run css && npm run doc && npm run prepare:demo && npm run prepare:commonjs && npm run prepare:umd && npm run prepare:umd:min",
+        "prepare": "npm run css && npm run prepare:commonjs",
         "prepare:commonjs": "tsc -p tsconfig2.json",
         "prepare:umd": "webpack --mode=development --config webpack_build.config.js",
         "prepare:umd:min": "webpack --mode=production --config webpack_build_min.config.js",
