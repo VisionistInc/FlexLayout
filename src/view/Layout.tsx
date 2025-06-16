@@ -218,13 +218,13 @@ const defaultSupportsPopout: boolean = isDesktop && !isIEorEdge;
 export class Layout extends React.Component<ILayoutProps, ILayoutState> {
 
     /** @internal */
-    private selfRef: React.RefObject<HTMLDivElement>;
+    private selfRef: React.RefObject<HTMLDivElement | null>;
     /** @internal */
-    private findHeaderBarSizeRef: React.RefObject<HTMLDivElement>;
+    private findHeaderBarSizeRef: React.RefObject<HTMLDivElement | null>;
     /** @internal */
-    private findTabBarSizeRef: React.RefObject<HTMLDivElement>;
+    private findTabBarSizeRef: React.RefObject<HTMLDivElement | null>;
     /** @internal */
-    private findBorderBarSizeRef: React.RefObject<HTMLDivElement>;
+    private findBorderBarSizeRef: React.RefObject<HTMLDivElement | null>;
     /** @internal */
     private previousModel?: Model;
     /** @internal */

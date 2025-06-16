@@ -1,8 +1,5 @@
 module.exports = {
     mode: "development",
-    entry: {
-        demo: "./examples/demo/App.tsx",
-    },
 
     output: {
         path: __dirname,
