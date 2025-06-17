@@ -475,7 +475,7 @@ export class Layout extends React.Component<ILayoutProps, ILayoutState> {
         // first render will be used to find the size (via selfRef)
         if (!this.selfRef.current) {
             return (
-                <div ref={this.selfRef} className={this.getClassName(CLASSES.FLEXLAYOUT__LAYOUT)}>
+                <div ref={(this.selfRef as React.RefObject<HTMLDivElement>)} className={this.getClassName(CLASSES.FLEXLAYOUT__LAYOUT)}>
                     {this.metricsElements()}
                 </div>
             );
@@ -554,7 +554,7 @@ export class Layout extends React.Component<ILayoutProps, ILayoutState> {
         // this.layoutTime = (Date.now() - this.start);
 
         return (
-            <div ref={this.selfRef} className={this.getClassName(CLASSES.FLEXLAYOUT__LAYOUT)} onDragEnter={this.props.onExternalDrag ? this.onDragEnter : undefined}>
+            <div ref={(this.selfRef as React.RefObject<HTMLDivElement>)} className={this.getClassName(CLASSES.FLEXLAYOUT__LAYOUT)} onDragEnter={this.props.onExternalDrag ? this.onDragEnter : undefined}>
                 {tabSetComponents}
                 {this.tabIds.map((t) => {
                     return tabComponents[t];
@@ -575,13 +575,13 @@ export class Layout extends React.Component<ILayoutProps, ILayoutState> {
         const fontStyle = this.styleFont({ visibility: "hidden" });
         return (
             <React.Fragment>
-                <div key="findHeaderBarSize" ref={this.findHeaderBarSizeRef} style={fontStyle} className={this.getClassName(CLASSES.FLEXLAYOUT__TABSET_HEADER_SIZER)}>
+                <div key="findHeaderBarSize" ref={(this.findHeaderBarSizeRef as React.RefObject<HTMLDivElement>)} style={fontStyle} className={this.getClassName(CLASSES.FLEXLAYOUT__TABSET_HEADER_SIZER)}>
                     FindHeaderBarSize
                 </div>
-                <div key="findTabBarSize" ref={this.findTabBarSizeRef} style={fontStyle} className={this.getClassName(CLASSES.FLEXLAYOUT__TABSET_SIZER)}>
+                <div key="findTabBarSize" ref={(this.findTabBarSizeRef as React.RefObject<HTMLDivElement>)} style={fontStyle} className={this.getClassName(CLASSES.FLEXLAYOUT__TABSET_SIZER)}>
                     FindTabBarSize
                 </div>
-                <div key="findBorderBarSize" ref={this.findBorderBarSizeRef} style={fontStyle} className={this.getClassName(CLASSES.FLEXLAYOUT__BORDER_SIZER)}>
+                <div key="findBorderBarSize" ref={(this.findBorderBarSizeRef as React.RefObject<HTMLDivElement>)} style={fontStyle} className={this.getClassName(CLASSES.FLEXLAYOUT__BORDER_SIZER)}>
                     FindBorderBarSize
                 </div>
             </React.Fragment>

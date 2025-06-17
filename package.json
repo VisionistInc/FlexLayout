@@ -37,8 +37,8 @@
     "repository": "https://github.com/VisionistInc/FlexLayout",
     "license": "ISC",
     "peerDependencies": {
-        "react": "^18.0.0",
-        "react-dom": "^18.0.0"
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0"
     },
     "eslintConfig": {
         "extends": "react-app"
